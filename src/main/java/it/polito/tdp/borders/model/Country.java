@@ -5,7 +5,7 @@ public class Country {
 	private int codice;
 	private String abbreviazione;
 	private String nomeStato;
-	
+
 	public Country(int codice, String abbreviazione, String nomeStato) {
 		super();
 		this.codice = codice;
@@ -35,6 +35,11 @@ public class Country {
 
 	public void setNomeStato(String nomeStato) {
 		this.nomeStato = nomeStato;
+	}
+	
+	@Override
+	public String toString() {
+		return nomeStato;
 	}
 	
 }

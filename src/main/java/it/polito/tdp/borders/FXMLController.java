@@ -4,9 +4,11 @@ package it.polito.tdp.borders;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.borders.model.Country;
 import it.polito.tdp.borders.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -22,18 +24,45 @@ public class FXMLController {
 
     @FXML // fx:id="txtAnno"
     private TextField txtAnno; // Value injected by FXMLLoader
+    
+    @FXML
+    private ComboBox<Country> cmbBoxNazioni;
 
     @FXML // fx:id="txtResult"
     private TextArea txtResult; // Value injected by FXMLLoader
 
     @FXML
     void doCalcolaConfini(ActionEvent event) {
+    	
+    	if(txtAnno.getText() == null || txtAnno.getText().equals(""))
+    		txtResult.setText("Devi inserire l'anno!");
+    	
+    	int annoMax;
+    	
+    	try {
+    		annoMax = Integer.parseInt(txtAnno.getText());
+    	} catch(NumberFormatException nfe) {
+    		throw new RuntimeException("Errore Formato Anno!", nfe);
+    	}
+    	
+    	model.creaGrafo(annoMax);
+    	
+    	txtResult.appendText(model.getStati());
+    	
+    	cmbBoxNazioni.getItems().addAll(model.getNodi());
+    	
+    }
+
+    @FXML
+    void doStatiRaggiungibili(ActionEvent event) {
 
     }
 
-    @FXML // This method is called by the FXMLLoader when initialization is complete
+    @FXML
     void initialize() {
+    	
         assert txtAnno != null : "fx:id=\"txtAnno\" was not injected: check your FXML file 'Scene.fxml'.";
+        assert cmbBoxNazioni != null : "fx:id=\"cmbBoxNazioni\" was not injected: check your FXML file 'Scene.fxml'.";
         assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Scene.fxml'.";
 
     }
@@ -41,4 +70,5 @@ public class FXMLController {
     public void setModel(Model model) {
     	this.model = model;
     }
+    
 }

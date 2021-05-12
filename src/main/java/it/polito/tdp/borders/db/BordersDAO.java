@@ -43,9 +43,9 @@ public class BordersDAO {
 
 	public List<Border> getCountryPairs(int anno, Map<Integer,Country> Map) {
 
-		String sql = "SELECT c.state1no, c.state2no "
-				+ "FROM contiguity c "
-				+ "WHERE c.year < ?";
+		String sql = "SELECT state1no, state2no "
+				+ "FROM contiguity "
+				+ "WHERE year <= ? AND conttype = 1";
 		
 		List<Border> result = new ArrayList<>();
 		
@@ -60,7 +60,7 @@ public class BordersDAO {
 			
 			while(rs.next()) {
 				
-				result.add(new Border(Map.get(rs.getInt("c.state1no")), Map.get(rs.getInt("c.state2no"))));
+				result.add(new Border(Map.get(rs.getInt("state1no")), Map.get(rs.getInt("state2no"))));
 				
 			}
 			
